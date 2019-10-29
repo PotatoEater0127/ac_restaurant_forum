@@ -7,9 +7,9 @@ const userController = {
     return res.render('signup');
   },
   signUp: (req, res) => {
-    User.creare({
+    User.create({
       name: req.body.name,
-      email: reqbody.email,
+      email: req.body.email,
       password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null)
     }).then(user => {
       return res.redirect('/signin');
