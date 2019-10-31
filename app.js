@@ -8,16 +8,16 @@ const db = require('./models');
 const app = express();
 const port = 3000;
 
+// set up view engine
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
+// set up bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// set up session and flash
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages');
@@ -25,6 +25,10 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
+
+// set up passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.listen(port, () => {
   db.sequelize.sync();
