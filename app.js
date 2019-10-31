@@ -8,25 +8,33 @@ const db = require('./models');
 const app = express();
 const port = 3000;
 
-// set up view engine
+//* set up view engine
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// set up bodyParser
+//* set up bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// set up session and flash
+//* set up session and flash
+const SUCCESS_MSG = 'success_messages';
+const ERROR_MSG = 'error_messages';
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
-
 app.use((req, res, next) => {
-  res.locals.success_messages = req.flash('success_messages');
-  res.locals.error_messages = req.flash('error_messages');
+  res.locals[SUCCESS_MSG] = req.flash(SUCCESS_MSG);
+  res.locals[ERROR_MSG] = req.flash(ERROR_MSG);
   res.locals.user = req.user;
   next();
 });
+// falsh utilities
+app.use((req, res, next) => {
+  req.flashSuccess = message => req.flash(SUCCESS_MSG, message);
+  req.flashError = message => req.flash(ERROR_MSG, message);
+  next();
+});
+//*
 
-// set up passport
+//* set up passport
 app.use(passport.initialize());
 app.use(passport.session());
 

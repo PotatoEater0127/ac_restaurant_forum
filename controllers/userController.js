@@ -9,14 +9,13 @@ const userController = {
   signUp: (req, res) => {
     // confirm password
     if (req.body.passwordCheck !== req.body.password) {
-      req.flash('error_messages', ' 兩次密碼輸入不同');
+      req.flashError('兩次密碼輸入不同');
       return res.redirect('./signup');
     }
 
     User.findOne({ where: { email: req.body.email } }).then(user => {
-      throw Error('test');
       if (user) {
-        req.flash('error_messages', '信箱重複');
+        req.flashError('信箱重複');
         return res.redirect('./signup');
       }
       User.create({
@@ -25,10 +24,10 @@ const userController = {
         password: bcrypt.hashSync(
           req.body.password,
           bcrypt.genSaltSync(10),
-          null
-        )
+          null,
+        ),
       }).then(user => {
-        req.flash('success_message', '成功註冊帳號');
+        req.flashSuccess('成功註冊帳號');
         return res.redirect('/signin');
       });
     });
@@ -39,15 +38,15 @@ const userController = {
   },
 
   signIn: (req, res) => {
-    req.flash('success_messages', '登入成功');
+    req.flashSuccess('登入成功');
     res.redirect('/restaurants');
   },
 
   logout: (req, res) => {
-    req.flash('success_messages', '登出成功');
+    req.flashSuccess('登出成功');
     req.logout();
     res.redirect('/signin');
-  }
+  },
 };
 
 module.exports = userController;

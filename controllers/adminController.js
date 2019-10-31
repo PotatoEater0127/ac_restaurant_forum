@@ -2,6 +2,12 @@ const db = require('../models');
 const Restaurant = db.Restaurant;
 
 const adminController = {
+  getRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id).then(restaurant => {
+      return res.render('admin/restaurant', { restaurant });
+    });
+  },
+
   getRestaurants: (req, res) => {
     return Restaurant.findAll().then(restaurants => {
       return res.render('admin/restaurants', { restaurants });
@@ -12,7 +18,7 @@ const adminController = {
   },
   postRestaurant: (req, res) => {
     if (!req.body.name) {
-      req.flash('error_messages', "name didn't exist");
+      req.flashError("name didn't exist");
       return res.redirect('back');
     }
     return Restaurant.create({
@@ -22,7 +28,7 @@ const adminController = {
       opening_hours: req.body.opening_hours,
       description: req.body.description,
     }).then(restaurant => {
-      req.flash('success_essages', 'restaurant was successfully created');
+      req.flashSuccess('restaurant was successfully created');
       res.redirect('/admin/restaurants');
     });
   },
