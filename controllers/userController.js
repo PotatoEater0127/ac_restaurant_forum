@@ -38,7 +38,7 @@ const userController = {
   },
 
   signIn: (req, res) => {
-    req.flash('sucess_messages', '登入成功');
+    req.flash('success_messages', '登入成功');
     res.redirect('/restaurants');
   },
 
