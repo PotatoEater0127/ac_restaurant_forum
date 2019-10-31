@@ -32,7 +32,17 @@ module.exports = (app, passport) => {
   app.get(
     '/admin/restaurants',
     authenticatedAdmin,
-    adminConroller.getRestaurants
+    adminConroller.getRestaurants,
+  );
+  app.get(
+    '/admin/restaurants/create',
+    authenticatedAdmin,
+    adminConroller.createRestaurant,
+  );
+  app.post(
+    '/admin/restaurants',
+    authenticatedAdmin,
+    adminConroller.postRestaurant,
   );
 
   // requests of signup
@@ -45,8 +55,8 @@ module.exports = (app, passport) => {
     '/signin',
     passport.authenticate('local', {
       failureRedirect: 'signin',
-      failureFlash: true
+      failureFlash: true,
     }),
-    userController.signIn
+    userController.signIn,
   );
 };
