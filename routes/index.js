@@ -19,16 +19,21 @@ module.exports = (app, passport) => {
     res.redirect('/signin');
   };
 
-  // requests of restaurants
+  //* requests of restaurants
   app.get('/', authenticated, (req, res) => {
     res.redirect('/restaurants');
   });
   app.get('/restaurants', authenticated, restController.getRestaurants);
 
-  // requests of admin
+  //* requests of admin
   app.get('/admin', authenticatedAdmin, (req, res) => {
     res.redirect('/admin/restaurants');
   });
+  app.get(
+    '/admin/restaurants/:id',
+    authenticatedAdmin,
+    adminConroller.getRestaurant,
+  );
   app.get(
     '/admin/restaurants',
     authenticatedAdmin,
@@ -44,12 +49,13 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminConroller.postRestaurant,
   );
+  //*
 
-  // requests of signup
+  //* requests of signup
   app.get('/signup', userController.signUpPage);
   app.post('/signup', userController.signUp);
 
-  // requests of signin
+  //* requests of signin
   app.get('/signin', userController.signInpage);
   app.post(
     '/signin',
