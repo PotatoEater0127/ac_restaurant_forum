@@ -6,8 +6,7 @@ const adminController = {
     return Restaurant.findAll().then(restaurants => {
       return res.render('admin/restaurants', { restaurants });
     });
-    return res.render('admin/restaurants');
-  }
+  },
 };
 
 module.exports = adminController;
