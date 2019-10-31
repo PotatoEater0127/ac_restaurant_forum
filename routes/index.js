@@ -3,17 +3,37 @@ const adminConroller = require('../controllers/adminController.js');
 const userController = require('../controllers/userController.js');
 
 module.exports = (app, passport) => {
+  const authenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/signin');
+  };
+  const authenticatedAdmin = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      if (req.user.isAdmin) {
+        return next();
+      }
+      return res.redirect('/');
+    }
+    res.redirect('/signin');
+  };
+
   // requests of restaurants
-  app.get('/', (req, res) => {
+  app.get('/', authenticated, (req, res) => {
     res.redirect('/restaurants');
   });
-  app.get('/restaurants', restController.getRestaurants);
+  app.get('/restaurants', authenticated, restController.getRestaurants);
 
   // requests of admin
-  app.get('/admin', (req, res) => {
+  app.get('/admin', authenticatedAdmin, (req, res) => {
     res.redirect('/admin/restaurants');
   });
-  app.get('/admin/restaurants', adminConroller.getRestaurants);
+  app.get(
+    '/admin/restaurants',
+    authenticatedAdmin,
+    adminConroller.getRestaurants
+  );
 
   // requests of signup
   app.get('/signup', userController.signUpPage);
