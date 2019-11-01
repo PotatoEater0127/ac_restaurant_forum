@@ -11,21 +11,21 @@ module.exports = (app, passport) => {
     res.redirect('/signin');
   };
 
-  //* requests of restaurants
+  //* requests of ~/restaurants
   app.get('/', authenticated, (req, res) => {
     res.redirect('/restaurants');
   });
   app.get('/restaurants', authenticated, restController.getRestaurants);
 
-  //* requests of admin
+  //* requests of ~/admin
   app.use('/admin', admin);
 
-  //* requests of signup
+  //* requests of ~/signup
   app.route('/signup')
     .get(userController.signUpPage)
     .post(userController.signUp);
 
-  //* requests of signin
+  //* requests of ~/signin
   app.route('/signin')
     .get(userController.signInpage)
     .post(

@@ -17,9 +17,9 @@ admin.get('/', (req, res) => {
 });
 admin.route('/restaurants')
       .get(adminControllor.getRestaurants)
-      .post(adminControllor.postRestaurant)
+      .post(adminControllor.postRestaurant);
 admin.get('/restaurants/create', adminControllor.createRestaurant);
 admin.get('/restaurants/:id', adminControllor.getRestaurant);
-
+admin.get('/restaurants/:id/edit', adminControllor.editController);
 
 module.exports = admin;
