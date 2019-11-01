@@ -38,6 +38,12 @@ const adminController = {
       res.redirect('/admin/restaurants');
     });
   },
+
+  editController: (req, res) => {
+    return Restaurant.findByPk(req.params.id).then(restaurant => {
+      return res.render('admin/create', { restaurant });
+    });
+  },
 };
 
 module.exports = adminController;
