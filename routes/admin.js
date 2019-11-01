@@ -21,7 +21,8 @@ admin.route('/restaurants')
 admin.get('/restaurants/create', adminControllor.createRestaurant);
 admin.route('/restaurants/:id')
       .get(adminControllor.getRestaurant)
-      .put(adminControllor.putRestaurant);
+      .put(adminControllor.putRestaurant)
+      .delete(adminControllor.deleteRestaurant);
 admin.get('/restaurants/:id/edit', adminControllor.editRestaurant);
 
 
