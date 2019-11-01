@@ -19,7 +19,10 @@ admin.route('/restaurants')
       .get(adminControllor.getRestaurants)
       .post(adminControllor.postRestaurant);
 admin.get('/restaurants/create', adminControllor.createRestaurant);
-admin.get('/restaurants/:id', adminControllor.getRestaurant);
-admin.get('/restaurants/:id/edit', adminControllor.editController);
+admin.route('/restaurants/:id')
+      .get(adminControllor.getRestaurant)
+      .put(adminControllor.putRestaurant);
+admin.get('/restaurants/:id/edit', adminControllor.editRestaurant);
+
 
 module.exports = admin;

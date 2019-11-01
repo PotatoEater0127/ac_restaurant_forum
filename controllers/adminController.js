@@ -39,9 +39,30 @@ const adminController = {
     });
   },
 
-  editController: (req, res) => {
+  editRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id).then(restaurant => {
       return res.render('admin/create', { restaurant });
+    });
+  },
+
+  putRestaurant: (req, res) => {
+    if (!req.body.name) {
+      req.flashError("name didn't exist");
+      return res.redirect('back');
+    }
+    return Restaurant.findByPk(req.params.id).then(restaurant => {
+      restaurant
+        .update({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+        })
+        .then(restaurant => {
+          req.flashSuccess('restaurant updated successfully');
+          res.redirect('/admin/restaurants');
+        });
     });
   },
 };
