@@ -4,17 +4,19 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('./config/passport');
+const methodOverride = require('method-override');
 const db = require('./models');
+
 const app = express();
 const port = 3000;
 
 //* set up view engine
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
-
 //* set up bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
-
+//* set up method override
+app.use(methodOverride('_method'));
 //* set up session and flash
 const SUCCESS_MSG = 'success_messages';
 const ERROR_MSG = 'error_messages';
