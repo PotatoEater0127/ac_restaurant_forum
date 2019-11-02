@@ -35,7 +35,7 @@ module.exports = {
     );
     return queryInterface.bulkInsert(
       "Restaurants",
-      Array.from({ length: 5 }).map(() => ({
+      Array.from({ length: 50 }).map(() => ({
         name: faker.name.findName(),
         tel: faker.phone.phoneNumber(),
         address: faker.address.streetAddress(),
