@@ -9,7 +9,7 @@ const passport = require("./config/passport");
 const db = require("./models");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //* set up view engine
 app.engine("handlebars", handlebars({ defaultLayout: "main" }));
