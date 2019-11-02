@@ -11,6 +11,7 @@ const authenticatedAdmin = (req, res, next) => {
   res.redirect('/signin');
 };
 
+//  apply admin authentication to all admin routes
 admin.use(authenticatedAdmin);
 admin.get('/', (req, res) => {
   res.redirect('/restaurants');
@@ -24,6 +25,5 @@ admin.route('/restaurants/:id')
       .put(adminControllor.putRestaurant)
       .delete(adminControllor.deleteRestaurant);
 admin.get('/restaurants/:id/edit', adminControllor.editRestaurant);
-
 
 module.exports = admin;
