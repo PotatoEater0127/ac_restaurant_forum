@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt-nodejs");
+const faker = require("faker");
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert(
+    queryInterface.bulkInsert(
       "Users",
       [
         {
@@ -30,6 +31,20 @@ module.exports = {
           updatedAt: new Date()
         }
       ],
+      {}
+    );
+    return queryInterface.bulkInsert(
+      "Restaurants",
+      Array.from({ length: 5 }).map(() => ({
+        name: faker.name.findName(),
+        tel: faker.phone.phoneNumber(),
+        address: faker.address.streetAddress(),
+        opening_hours: "08:00",
+        image: faker.image.imageUrl(),
+        description: faker.lorem.text(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })),
       {}
     );
   },

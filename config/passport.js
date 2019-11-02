@@ -13,6 +13,7 @@ passport.use(
       passReqToCallback: true
     },
     (req, username, password, cb) => {
+      console.log(req.username);
       User.findOne({ where: { email: username } }).then(user => {
         if (!user) {
           return cb(
