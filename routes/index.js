@@ -36,4 +36,6 @@ module.exports = (app, passport) => {
       }),
       userController.signIn
     );
+  //* request of ~/signin
+  app.get("/logout", userController.logout);
 };

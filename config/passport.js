@@ -1,14 +1,15 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt-nodejs');
-const db = require('../models');
-const User = db.User;
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcrypt-nodejs");
+const db = require("../models");
+
+const { User } = db;
 
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
-      passwordField: 'password',
+      usernameField: "email",
+      passwordField: "password",
       passReqToCallback: true
     },
     (req, username, password, cb) => {
@@ -17,7 +18,7 @@ passport.use(
           return cb(
             null,
             false,
-            req.flash('error_messages', '帳號或密碼輸入錯誤')
+            req.flash("error_messages", "帳號或密碼輸入錯誤")
           );
         }
 
@@ -25,7 +26,7 @@ passport.use(
           return cb(
             null,
             false,
-            req.flash('error_messages', '帳號或密碼輸入錯誤')
+            req.flash("error_messages", "帳號或密碼輸入錯誤")
           );
         }
 

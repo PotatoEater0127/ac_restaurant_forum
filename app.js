@@ -3,8 +3,9 @@ const handlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
 const flash = require("connect-flash");
 const session = require("express-session");
-const passport = require("./config/passport");
 const methodOverride = require("method-override");
+const passport = require("./config/passport");
+
 const db = require("./models");
 
 const app = express();
@@ -18,9 +19,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //* set up method override
 app.use(methodOverride("_method"));
 //* set up session and flash
+app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
+//* set up passport
+app.use(passport.initialize());
+app.use(passport.session());
+//* set up flash
 const SUCCESS_MSG = "success_messages";
 const ERROR_MSG = "error_messages";
-app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 app.use(flash());
 app.use((req, res, next) => {
   res.locals[SUCCESS_MSG] = req.flash(SUCCESS_MSG);
@@ -35,9 +40,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//* set up passport
-app.use(passport.initialize());
-app.use(passport.session());
+app.use("/upload", express.static(`${__dirname}/upload`));
 
 app.listen(port, () => {
   db.sequelize.sync();
