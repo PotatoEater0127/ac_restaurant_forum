@@ -28,7 +28,6 @@ const adminController = {
     }
 
     const { file } = req;
-    console.log(file, req.body);
     if (file) {
       fs.readFile(file.path, (err, data) => {
         if (err) console.log("Error: ", err);
@@ -68,6 +67,7 @@ const adminController = {
   },
   // update a restaurant data and then redirect to /admin/restaurants
   putRestaurant: (req, res) => {
+    console.log(req.body);
     if (!req.body.name) {
       req.flashError("name didn't exist");
       return res.redirect("back");
