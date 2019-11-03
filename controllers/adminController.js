@@ -1,4 +1,3 @@
-const imgur = require("imgur-node-api");
 const db = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
 
@@ -46,7 +45,6 @@ const adminController = {
   },
   // update a restaurant data and then redirect to /admin/restaurants
   putRestaurant: async (req, res) => {
-    console.log(req.body);
     if (!req.body.name) {
       req.flashError("name didn't exist");
       return res.redirect("back");

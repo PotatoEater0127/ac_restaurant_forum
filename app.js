@@ -5,6 +5,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const passport = require("./config/passport");
+const flashHelper = require("./middlewares/flashHelper.js");
 
 const db = require("./models");
 
@@ -23,20 +24,11 @@ app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 //* set up passport
 app.use(passport.initialize());
 app.use(passport.session());
-//* set up flash
-const SUCCESS_MSG = "success_messages";
-const ERROR_MSG = "error_messages";
-app.use(flash());
+//* set up flash and flash-helper
+app.use(flash(), flashHelper("success_messages", "error_messages"));
+
 app.use((req, res, next) => {
-  res.locals[SUCCESS_MSG] = req.flash(SUCCESS_MSG);
-  res.locals[ERROR_MSG] = req.flash(ERROR_MSG);
   res.locals.user = req.user;
-  next();
-});
-// falsh utilities
-app.use((req, res, next) => {
-  req.flashSuccess = message => req.flash(SUCCESS_MSG, message);
-  req.flashError = message => req.flash(ERROR_MSG, message);
   next();
 });
 
