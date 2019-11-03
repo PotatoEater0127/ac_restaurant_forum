@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('Users', 'isAdmin', {
+    return queryInterface.addColumn("Users", "isAdmin", {
       type: Sequelize.BOOLEAN,
       defaultValue: false
     });
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.removeColumn('Users', 'isAdmin');
+    return queryInterface.removeColumn("Users", "isAdmin");
   }
 };

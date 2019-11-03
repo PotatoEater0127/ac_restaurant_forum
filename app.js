@@ -26,7 +26,8 @@ app.use((req, res, next) => {
 app.use("/upload", express.static(`${__dirname}/upload`));
 
 app.listen(port, () => {
-  db.sequelize.sync();
+  //* using migration instead
+  // db.sequelize.sync();
   console.log(`Example app listening on port ${port}`);
 });
 
