@@ -1,7 +1,7 @@
 const db = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
 
-const { Restaurant } = db;
+const { Restaurant, User } = db;
 
 const adminController = {
   // render one restaurant
@@ -12,7 +12,7 @@ const adminController = {
   },
   // render all restaurants
   getRestaurants: (req, res) => {
-    return Restaurant.findAll().then(restaurants => {
+    return Restaurant.findAll({ order: [["id", "ASC"]] }).then(restaurants => {
       return res.render("admin/restaurants", { restaurants });
     });
   },
@@ -68,6 +68,21 @@ const adminController = {
       restaurant
         .destroy()
         .then(restaurant => res.redirect("/admin/restaurants"));
+    });
+  },
+  // render all users
+  editUsers: (req, res) => {
+    return User.findAll({ order: [["id", "ASC"]] }).then(users => {
+      res.render("admin/users", { users });
+    });
+  },
+  // update a user data and then redirect to /admin/users
+  putUsers: (req, res) => {
+    return User.findByPk(req.params.id).then(user => {
+      user.update({ isAdmin: !user.isAdmin }).then(user => {
+        req.flashSuccess(`user: ${user.email} was updated successfully`);
+        res.redirect("/admin/users");
+      });
     });
   }
 };

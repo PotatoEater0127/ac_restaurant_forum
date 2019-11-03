@@ -7,9 +7,13 @@ const upload = multer({ dest: "temp/" });
 
 //  apply admin authentication to all admin routes
 admin.use(authenticatedAdmin);
+
+// admin/
 admin.get("/", (req, res) => {
   res.redirect("/admin/restaurants");
 });
+
+// admin/restaurants/
 admin
   .route("/restaurants")
   .get(adminControllor.getRestaurants)
@@ -21,5 +25,9 @@ admin
   .put(upload.single("image"), adminControllor.putRestaurant)
   .delete(adminControllor.deleteRestaurant);
 admin.get("/restaurants/:id/edit", adminControllor.editRestaurant);
+
+// admin/users/
+admin.get("/users", adminControllor.editUsers);
+admin.put("/users/:id", adminControllor.putUsers);
 
 module.exports = admin;
