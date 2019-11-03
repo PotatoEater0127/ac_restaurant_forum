@@ -5,7 +5,8 @@
     "database": "forum",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "imgurClientID": "9aa295fe15b05c9"
   },
   "test": {
     "username": "root",
@@ -13,7 +14,8 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "imgurClientID": "9aa295fe15b05c9"
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
@@ -21,6 +23,7 @@
     "protocol": "postgres",
     "dialectOptions": {
       "ssl": true
-    }
+    },
+    "imgurClientID": "9aa295fe15b05c9"
   }
 }
