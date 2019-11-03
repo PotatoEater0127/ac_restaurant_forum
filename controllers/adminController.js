@@ -30,6 +30,7 @@ const adminController = {
 
     const { file, body } = req;
     const img = await uploadAsync(file);
+    // in case either img or img.data is null or undefined
     body.image = img && img.data ? img.data.link : null;
 
     return Restaurant.create(body).then(restaurant => {
@@ -54,6 +55,7 @@ const adminController = {
     const { file, body } = req;
     const img = await uploadAsync(file);
     body.image = img && img.data ? img.data.link : null;
+
     return Restaurant.findByPk(req.params.id).then(restaurant => {
       body.image = body.image || restaurant.image;
       restaurant.update(body).then(restaurant => {

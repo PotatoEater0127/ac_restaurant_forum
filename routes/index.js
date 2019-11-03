@@ -1,15 +1,9 @@
 const restController = require("../controllers/restController.js");
 const userController = require("../controllers/userController.js");
+const { authenticated } = require("../middlewares/authenticator.js");
 const admin = require("./admin.js");
 
 module.exports = (app, passport) => {
-  const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    return res.redirect("/signin");
-  };
-
   //* requests of ~/restaurants
   app.get("/", authenticated, (req, res) => {
     res.redirect("/restaurants");
