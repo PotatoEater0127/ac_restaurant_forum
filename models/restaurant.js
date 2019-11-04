@@ -1,4 +1,3 @@
-"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Restaurant = sequelize.define(
     "Restaurant",
@@ -12,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Restaurant.associate = function(models) {
+  Restaurant.associate = models => {
     Restaurant.belongsTo(models.Category);
   };
   return Restaurant;

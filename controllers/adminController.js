@@ -38,7 +38,7 @@ const adminController = {
     body.image = img && img.data ? img.data.link : null;
     body.CategoryId = body.categoryId;
 
-    return Restaurant.create(body).then(restaurant => {
+    return Restaurant.create(body).then(() => {
       req.flashSuccess("restaurant was successfully created");
       res.redirect("/admin/restaurants");
     });
@@ -68,7 +68,7 @@ const adminController = {
 
     return Restaurant.findByPk(req.params.id).then(restaurant => {
       body.image = body.image || restaurant.image;
-      restaurant.update(body).then(restaurant => {
+      restaurant.update(body).then(() => {
         req.flashSuccess("restaurant updated successfully");
         res.redirect("/admin/restaurants");
       });
@@ -77,9 +77,7 @@ const adminController = {
   // delete a restaurant data and then redirect to /admin/restaurants
   deleteRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id).then(restaurant => {
-      restaurant
-        .destroy()
-        .then(restaurant => res.redirect("/admin/restaurants"));
+      restaurant.destroy().then(() => res.redirect("/admin/restaurants"));
     });
   },
   // render all users
@@ -91,7 +89,7 @@ const adminController = {
   // update a user data and then redirect to /admin/users
   putUsers: (req, res) => {
     return User.findByPk(req.params.id).then(user => {
-      user.update({ isAdmin: !user.isAdmin }).then(user => {
+      user.update({ isAdmin: !user.isAdmin }).then(() => {
         req.flashSuccess(`user: ${user.email} was updated successfully`);
         res.redirect("/admin/users");
       });

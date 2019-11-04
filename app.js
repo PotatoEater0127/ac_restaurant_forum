@@ -6,12 +6,15 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const passport = require("./config/passport");
 const flashHelper = require("./middlewares/flashHelper.js");
-const db = require("./models");
+const hbsHelpers = require("./config/handlebars-helpers.js");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.engine("handlebars", handlebars({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  handlebars({ defaultLayout: "main", helpers: hbsHelpers })
+);
 app.set("view engine", "handlebars");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
