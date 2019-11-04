@@ -2,6 +2,7 @@ const admin = require("express").Router();
 const multer = require("multer");
 const { authenticatedAdmin } = require("../middlewares/authenticator.js");
 const adminControllor = require("../controllers/adminController.js");
+const categoryController = require("../controllers/categoryController");
 
 const upload = multer({ dest: "temp/" });
 
@@ -29,5 +30,8 @@ admin.get("/restaurants/:id/edit", adminControllor.editRestaurant);
 // admin/users/
 admin.get("/users", adminControllor.editUsers);
 admin.put("/users/:id", adminControllor.putUsers);
+
+// admin/categories/
+admin.get("/categories", categoryController.getCategories);
 
 module.exports = admin;
