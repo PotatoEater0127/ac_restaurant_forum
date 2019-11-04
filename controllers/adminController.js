@@ -1,18 +1,21 @@
-const db = require("../models");
+const { Restaurant, User, Category } = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
-
-const { Restaurant, User } = db;
 
 const adminController = {
   // render one restaurant
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id).then(restaurant => {
-      return res.render("admin/restaurant", { restaurant });
-    });
+    return Restaurant.findByPk(req.params.id, { include: [Category] }).then(
+      restaurant => {
+        return res.render("admin/restaurant", { restaurant });
+      }
+    );
   },
   // render all restaurants
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ order: [["id", "ASC"]] }).then(restaurants => {
+    return Restaurant.findAll({
+      order: [["id", "ASC"]],
+      include: [Category]
+    }).then(restaurants => {
       return res.render("admin/restaurants", { restaurants });
     });
   },
