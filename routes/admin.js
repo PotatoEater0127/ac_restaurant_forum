@@ -32,6 +32,9 @@ admin.get("/users", adminControllor.editUsers);
 admin.put("/users/:id", adminControllor.putUsers);
 
 // admin/categories/
-admin.get("/categories", categoryController.getCategories);
+admin
+  .route("categories")
+  .get(categoryController.getCategories)
+  .post(categoryController.postCategory);
 
 module.exports = admin;
