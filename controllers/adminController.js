@@ -21,7 +21,9 @@ const adminController = {
   },
   // render the create-restautant page, which is also the edit-restaurant page
   createRestaurant: (req, res) => {
-    return res.render("admin/create");
+    Category.findAll().then(categories => {
+      return res.render("admin/create", { categories });
+    });
   },
   // create a restaurant and then redirect to /admin/restaurants
   postRestaurant: async (req, res) => {
@@ -34,6 +36,7 @@ const adminController = {
     const img = await uploadAsync(file);
     // in case either img or img.data is null or undefined
     body.image = img && img.data ? img.data.link : null;
+    body.CategoryId = body.categoryId;
 
     return Restaurant.create(body).then(restaurant => {
       req.flashSuccess("restaurant was successfully created");
@@ -43,7 +46,12 @@ const adminController = {
   // render edit-restaurant page, which is also the create Restaurant page
   editRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id).then(restaurant => {
-      return res.render("admin/create", { restaurant });
+      Category.findAll().then(categories => {
+        return res.render("admin/create", {
+          categories,
+          restaurant
+        });
+      });
     });
   },
   // update a restaurant data and then redirect to /admin/restaurants
@@ -56,6 +64,7 @@ const adminController = {
     const { file, body } = req;
     const img = await uploadAsync(file);
     body.image = img && img.data ? img.data.link : null;
+    body.CategoryId = body.categoryId;
 
     return Restaurant.findByPk(req.params.id).then(restaurant => {
       body.image = body.image || restaurant.image;
