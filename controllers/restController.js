@@ -1,24 +1,50 @@
 const { Restaurant, Category } = require("../models");
 
+const pageLimit = 10;
+
 const restController = {
   getRestaurants: async (req, res) => {
+    let offset = 0;
+    let { categoryId, page } = req.query;
     const where = {};
-    let { categoryId } = req.query;
+    if (page) {
+      offset = (page - 1) * pageLimit;
+    }
+    categoryId = Number(categoryId) || "";
     if (categoryId) {
-      categoryId = Number(categoryId);
-      where.CategoryId = categoryId;
+      where.categoryId = categoryId;
     }
 
-    const restaurantsRawData = await Restaurant.findAll({
+    const result = await Restaurant.findAndCountAll({
       include: Category,
-      where
+      limit: pageLimit,
+      where,
+      offset
     });
-    const restaurants = restaurantsRawData.map(rest => ({
+    // data for pagination
+    page = Number(page) || 1;
+    const maxPage = Math.ceil(result.count / pageLimit);
+    const pages = Array.from({ length: maxPage }).map(
+      (item, index) => index + 1
+    );
+    const prev = page - 1 < 1 ? 1 : page - 1;
+    const next = page + 1 > maxPage ? maxPage : page + 1;
+    // clean up restaurants data
+    const restaurants = result.rows.map(rest => ({
       ...rest.dataValues,
       description: rest.dataValues.description.substring(0, 50)
     }));
     const categories = await Category.findAll();
-    return res.render("restaurants", { restaurants, categories, categoryId });
+    console.log("page:", page, "pages:", pages, "prev:", prev, "next:", next);
+    return res.render("restaurants", {
+      restaurants,
+      categories,
+      categoryId,
+      page,
+      pages,
+      prev,
+      next
+    });
   },
 
   getRestaurant: (req, res) => {
