@@ -1,4 +1,4 @@
-const { Restaurant, Category } = require("../models");
+const { Restaurant, Category, Comment, User } = require("../models");
 
 const pageLimit = 10;
 
@@ -49,7 +49,7 @@ const restController = {
 
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
-      include: Category
+      include: [Category, { model: Comment, include: [User] }]
     }).then(restaurant => res.render("restaurant", { restaurant }));
   }
 };
