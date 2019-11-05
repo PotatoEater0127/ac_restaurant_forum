@@ -43,6 +43,7 @@ admin
 admin
   .route("/categories/:id")
   .get(categoryController.getCategories)
-  .put(categoryController.putCategory);
+  .put(categoryController.putCategory)
+  .delete(categoryController.deleteCategory);
 
 module.exports = admin;
