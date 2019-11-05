@@ -9,6 +9,7 @@ module.exports = (app, passport) => {
     res.redirect("/restaurants");
   });
   app.get("/restaurants", authenticated, restController.getRestaurants);
+  app.get("/restaurants/:id", authenticated, restController.getRestaurant);
 
   //* requests of ~/admin
   app.use("/admin", admin);
