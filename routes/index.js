@@ -1,7 +1,10 @@
 const restController = require("../controllers/restController.js");
 const userController = require("../controllers/userController.js");
 const commentController = require("../controllers/commentController.js");
-const { authenticated } = require("../middlewares/authenticator.js");
+const {
+  authenticated,
+  authenticatedAdmin
+} = require("../middlewares/authenticator.js");
 const admin = require("./admin.js");
 
 module.exports = (app, passport) => {
@@ -14,6 +17,11 @@ module.exports = (app, passport) => {
 
   //* requests of ~/comments
   app.post("/comments", authenticated, commentController.postComment);
+  app.delete(
+    "/comments/:id",
+    authenticatedAdmin,
+    commentController.deleteComment
+  );
 
   //* requests of ~/admin
   app.use("/admin", admin);
