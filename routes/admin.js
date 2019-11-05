@@ -19,12 +19,15 @@ admin
   .route("/restaurants")
   .get(adminControllor.getRestaurants)
   .post(upload.single("image"), adminControllor.postRestaurant);
+
 admin.get("/restaurants/create", adminControllor.createRestaurant);
+
 admin
   .route("/restaurants/:id")
   .get(adminControllor.getRestaurant)
   .put(upload.single("image"), adminControllor.putRestaurant)
   .delete(adminControllor.deleteRestaurant);
+
 admin.get("/restaurants/:id/edit", adminControllor.editRestaurant);
 
 // admin/users/
@@ -33,8 +36,13 @@ admin.put("/users/:id", adminControllor.putUsers);
 
 // admin/categories/
 admin
-  .route("categories")
+  .route("/categories")
   .get(categoryController.getCategories)
   .post(categoryController.postCategory);
+
+admin
+  .route("/categories/:id")
+  .get(categoryController.getCategories)
+  .put(categoryController.putCategory);
 
 module.exports = admin;
