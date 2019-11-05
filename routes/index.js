@@ -1,5 +1,6 @@
 const restController = require("../controllers/restController.js");
 const userController = require("../controllers/userController.js");
+const commentController = require("../controllers/commentController.js");
 const { authenticated } = require("../middlewares/authenticator.js");
 const admin = require("./admin.js");
 
@@ -10,6 +11,9 @@ module.exports = (app, passport) => {
   });
   app.get("/restaurants", authenticated, restController.getRestaurants);
   app.get("/restaurants/:id", authenticated, restController.getRestaurant);
+
+  //* requests of ~/comments
+  app.post("/comments", authenticated, commentController.postComment);
 
   //* requests of ~/admin
   app.use("/admin", admin);
