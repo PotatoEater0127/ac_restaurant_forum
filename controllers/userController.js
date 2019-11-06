@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt-nodejs");
-const { User } = require("../models");
+const { User, Comment, Restaurant } = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
 
 const userController = {
@@ -33,8 +33,24 @@ const userController = {
     });
   },
 
-  getUser: (req, res) => {
-    User.findByPk(req.params.id).then(user => res.render("user", { user }));
+  getUser: async (req, res) => {
+    const user = await User.findByPk(req.params.id, {
+      include: [{ model: Comment, include: [Restaurant] }]
+    });
+    const allRests = user.Comments.map(com => com.Restaurant);
+    // use a set to filter out duplicate restaurants
+    const restaurants = allRests.reduce(
+      ({ rests, idSet }, rest) => {
+        if (!idSet.has(rest.id)) {
+          rests.push(rest);
+          idSet.add(rest.id);
+        }
+        return { rests, idSet };
+      },
+      { rests: [], idSet: new Set() }
+    ).rests;
+
+    res.render("user", { user, restaurants });
   },
 
   editUser: (req, res) => {

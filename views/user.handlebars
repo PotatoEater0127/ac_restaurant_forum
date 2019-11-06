@@ -1,4 +1,4 @@
-<div class="card" style="max-width: 80%; margin:0 auto;">
+<div class="card" style="max-width: 80%; margin:auto;">
   <div class="row no-gutters">
     <div class="col-md-3">
       <img src="{{user.image}}" class="card-img" alt="...">
@@ -9,6 +9,20 @@
         <p>{{user.email}}</p>
         <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
       </div>
+    </div>
+  </div>
+</div>
+<div class="card" style="max-width: 80%; margin:2.5% auto;">
+  <div class="card-header">
+    <h5 class="card-title">{{restaurants.length}}則評論</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      {{#each restaurants}}
+        <a href="/restaurants/{{this.id}}">
+          <img src="{{this.image}}" class="rounded mx-2" style="width: 100px; height: 100px">
+        </a>
+      {{/each}}
     </div>
   </div>
 </div>
