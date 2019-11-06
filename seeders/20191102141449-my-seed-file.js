@@ -11,7 +11,7 @@ module.exports = {
           password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
           isAdmin: true,
           name: "root",
-          image: faker.image.imageUrl(),
+          image: "https://bit.ly/2PQhoJ1",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -20,7 +20,7 @@ module.exports = {
           password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
           isAdmin: false,
           name: "user1",
-          image: faker.image.imageUrl(),
+          image: "https://bit.ly/2PQhoJ1",
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -29,7 +29,7 @@ module.exports = {
           password: bcrypt.hashSync("12345678", bcrypt.genSaltSync(10), null),
           isAdmin: false,
           name: "user2",
-          image: faker.image.imageUrl(),
+          image: "https://bit.ly/2PQhoJ1",
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -62,7 +62,8 @@ module.exports = {
         tel: faker.phone.phoneNumber(),
         address: faker.address.streetAddress(),
         opening_hours: "08:00",
-        image: faker.image.imageUrl(),
+        image:
+          "https://media-cdn.tripadvisor.com/media/photo-s/12/c1/c3/f5/restaurant-araz.jpg",
         description: faker.lorem.text(),
         createdAt: new Date(),
         updatedAt: new Date(),
