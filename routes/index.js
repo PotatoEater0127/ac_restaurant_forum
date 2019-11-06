@@ -6,6 +6,7 @@ const {
   authenticatedAdmin
 } = require("../middlewares/authenticator.js");
 const admin = require("./admin.js");
+const user = require("./user");
 
 module.exports = (app, passport) => {
   //* requests of ~/restaurants
@@ -26,6 +27,9 @@ module.exports = (app, passport) => {
   //* requests of ~/admin
   app.use("/admin", admin);
 
+  //* requests of /users
+  app.use("/users", user);
+
   //* requests of ~/signup
   app
     .route("/signup")
@@ -43,6 +47,7 @@ module.exports = (app, passport) => {
       }),
       userController.signIn
     );
+
   //* request of ~/logout
   app.get("/logout", userController.logout);
 };

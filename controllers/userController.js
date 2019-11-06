@@ -1,12 +1,12 @@
 const bcrypt = require("bcrypt-nodejs");
-const db = require("../models");
-
-const { User } = db;
+const { User } = require("../models");
+const { uploadAsync } = require("../util/imgurUtil");
 
 const userController = {
   signUpPage: (req, res) => {
     return res.render("signup");
   },
+
   signUp: (req, res) => {
     // confirm password
     if (req.body.passwordCheck !== req.body.password) {
@@ -31,6 +31,31 @@ const userController = {
         return res.redirect("/signin");
       });
     });
+  },
+
+  getUser: (req, res) => {
+    User.findByPk(req.params.id).then(user => res.render("user", { user }));
+  },
+
+  editUser: (req, res) => {
+    User.findByPk(req.params.id).then(user => res.render("editUser", { user }));
+  },
+
+  putUser: async (req, res) => {
+    const { file, body } = req;
+    const { id } = req.user;
+    const img = await uploadAsync(file);
+    body.image = img && img.data ? img.data.link : null;
+
+    User.findByPk(id)
+      .then(user => {
+        body.image = body.image ? body.image : user.image;
+        return user.update(body);
+      })
+      .then(user => {
+        req.flashSuccess(`Your profile is updated successfully`);
+        res.redirect(`/users/${user.id}`);
+      });
   },
 
   signInpage: (req, res) => {
