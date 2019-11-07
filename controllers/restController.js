@@ -32,10 +32,12 @@ const restController = {
     // clean up restaurants data
     const restaurants = result.rows.map(rest => ({
       ...rest.dataValues,
-      description: rest.dataValues.description.substring(0, 50)
+      description: rest.dataValues.description.substring(0, 50),
+      isFavorited: req.user.FavoritedRestaurants.map(fav => fav.id).includes(
+        rest.id
+      )
     }));
     const categories = await Category.findAll();
-    console.log("page:", page, "pages:", pages, "prev:", prev, "next:", next);
     return res.render("restaurants", {
       restaurants,
       categories,
@@ -49,12 +51,21 @@ const restController = {
 
   getRestaurant: (req, res) =>
     Restaurant.findByPk(req.params.id, {
-      include: [Category, { model: Comment, include: [User] }]
+      include: [
+        Category,
+        { model: Comment, include: [User] },
+        { model: User, as: "FavoritedUsers" }
+      ]
     })
       .then(restaurant =>
         restaurant.update({ viewCounts: restaurant.viewCounts + 1 })
       )
-      .then(restaurant => res.render("restaurant", { restaurant })),
+      .then(restaurant => {
+        const isFavorited = restaurant.FavoritedUsers.map(
+          user => user.id
+        ).includes(req.user.id);
+        res.render("restaurant", { restaurant, isFavorited });
+      }),
 
   getFeeds: async (req, res) => {
     const restaurants = await Restaurant.findAll({
