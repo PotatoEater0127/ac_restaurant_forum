@@ -12,7 +12,7 @@ const restController = {
     }
     categoryId = Number(categoryId) || "";
     if (categoryId) {
-      where.categoryId = categoryId;
+      where.CategoryId = categoryId;
     }
 
     const result = await Restaurant.findAndCountAll({
