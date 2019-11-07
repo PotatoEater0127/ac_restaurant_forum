@@ -7,15 +7,14 @@ const {
 } = require("../middlewares/authenticator.js");
 const admin = require("./admin.js");
 const user = require("./user");
+const rest = require("./restaurant");
 
 module.exports = (app, passport) => {
   //* requests of ~/restaurants
   app.get("/", authenticated, (req, res) => {
     res.redirect("/restaurants");
   });
-  app.get("/restaurants", authenticated, restController.getRestaurants);
-  app.get("/restaurants/feeds", authenticated, restController.getFeeds);
-  app.get("/restaurants/:id", authenticated, restController.getRestaurant);
+  app.use("/restaurants", rest);
 
   //* requests of ~/comments
   app.post("/comments", authenticated, commentController.postComment);

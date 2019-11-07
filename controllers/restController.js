@@ -47,11 +47,10 @@ const restController = {
     });
   },
 
-  getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, {
+  getRestaurant: (req, res) =>
+    Restaurant.findByPk(req.params.id, {
       include: [Category, { model: Comment, include: [User] }]
-    }).then(restaurant => res.render("restaurant", { restaurant }));
-  },
+    }).then(restaurant => res.render("restaurant", { restaurant })),
 
   getFeeds: async (req, res) => {
     const restaurants = await Restaurant.findAll({
@@ -65,7 +64,12 @@ const restController = {
       include: [User, Restaurant]
     });
     res.render("feeds", { restaurants, comments });
-  }
+  },
+
+  getDashboard: (req, res) =>
+    Restaurant.findByPk(req.params.id, { include: [Category, Comment] }).then(
+      restaurant => res.render("dashboard", { restaurant })
+    )
 };
 
 module.exports = restController;
