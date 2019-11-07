@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = models => {
     User.hasMany(models.Comment);
+    User.belongsToMany(models.Restaurant, {
+      through: models.Favorite,
+      foreignKey: "RestaurantId",
+      as: "FavoritedUsers"
+    });
   };
   return User;
 };
