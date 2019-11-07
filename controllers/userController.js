@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt-nodejs");
-const { User, Comment, Restaurant } = require("../models");
+const { User, Comment, Restaurant, Favorite } = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
 
 const userController = {
@@ -72,6 +72,30 @@ const userController = {
         req.flashSuccess(`Your profile is updated successfully`);
         res.redirect(`/users/${user.id}`);
       });
+  },
+
+  addFavorite: (req, res) => {
+    // console.log(req.user.id);
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(favorite => {
+      console.log(favorite);
+      return res.redirect("back");
+    });
+  },
+
+  removeFavorite: (req, res) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then(favorite => {
+      favorite.destroy().then(restaurant => {
+        return res.redirect("back");
+      });
+    });
   },
 
   signInpage: (req, res) => {

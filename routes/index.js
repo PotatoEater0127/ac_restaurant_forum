@@ -1,4 +1,3 @@
-const restController = require("../controllers/restController.js");
 const userController = require("../controllers/userController.js");
 const commentController = require("../controllers/commentController.js");
 const {
@@ -29,6 +28,18 @@ module.exports = (app, passport) => {
 
   //* requests of /users
   app.use("/users", user);
+
+  //* requests of /favorite
+  app.post(
+    "/favorite/:restaurantId",
+    authenticated,
+    userController.addFavorite
+  );
+  app.delete(
+    "/favorite/:restaurantId",
+    authenticated,
+    userController.removeFavorite
+  );
 
   //* requests of ~/signup
   app
