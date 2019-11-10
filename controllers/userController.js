@@ -1,5 +1,12 @@
 const bcrypt = require("bcrypt-nodejs");
-const { User, Comment, Restaurant, Favorite, Like } = require("../models");
+const {
+  User,
+  Comment,
+  Restaurant,
+  Favorite,
+  Like,
+  Followship
+} = require("../models");
 const { uploadAsync } = require("../util/imgurUtil");
 
 const userController = {
@@ -127,6 +134,28 @@ const userController = {
         RestaurantId: req.params.restaurantId
       }
     }).then(like => like.destroy().then(like => res.redirect("back")));
+  },
+
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    }).then(followship => {
+      return res.redirect("back");
+    });
+  },
+
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return res.redirect("back");
+      });
+    });
   },
 
   signInpage: (req, res) => {

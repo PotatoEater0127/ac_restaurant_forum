@@ -41,6 +41,12 @@ module.exports = (app, passport) => {
     .post(authenticated, userController.addLike)
     .delete(authenticated, userController.removeLike);
 
+  //* requests of /following
+  app
+    .route("/following/:userId")
+    .post(authenticated, userController.addFollowing)
+    .delete(authenticated, userController.removeFollowing);
+
   //* requests of ~/signup
   app
     .route("/signup")
