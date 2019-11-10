@@ -8,6 +8,8 @@ const userController = require("../controllers/userController");
 
 const upload = multer({ dest: "temp/" });
 
+user.get("/top", authenticated, userController.getTopUser);
+
 user
   .route("/:id")
   .get(authenticated, userController.getUser)
