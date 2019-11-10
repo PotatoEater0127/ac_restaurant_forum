@@ -50,11 +50,13 @@ const userController = {
       { rests: [], idSet: new Set() }
     ).rests;
 
-    res.render("user", { user, restaurants });
+    res.render("user", { profile: user, restaurants });
   },
 
   editUser: (req, res) => {
-    User.findByPk(req.params.id).then(user => res.render("editUser", { user }));
+    User.findByPk(req.params.id).then(user =>
+      res.render("editUser", { profile: user })
+    );
   },
 
   putUser: async (req, res) => {
