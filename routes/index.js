@@ -30,16 +30,16 @@ module.exports = (app, passport) => {
   app.use("/users", user);
 
   //* requests of /favorite
-  app.post(
-    "/favorite/:restaurantId",
-    authenticated,
-    userController.addFavorite
-  );
-  app.delete(
-    "/favorite/:restaurantId",
-    authenticated,
-    userController.removeFavorite
-  );
+  app
+    .route("/favorite/:restaurantId")
+    .post(authenticated, userController.addFavorite)
+    .delete(authenticated, userController.removeFavorite);
+
+  //* requests of /like
+  app
+    .route("/like/:restaurantId")
+    .post(authenticated, userController.addLike)
+    .delete(authenticated, userController.removeLike);
 
   //* requests of ~/signup
   app
