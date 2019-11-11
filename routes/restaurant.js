@@ -4,6 +4,7 @@ const { authenticated } = require("../middlewares/authenticator.js");
 
 restautant.use(authenticated);
 restautant.get("/", restController.getRestaurants);
+restautant.get("/top", restController.getTopRestaurants);
 restautant.get("/feeds", restController.getFeeds);
 restautant.get("/:id", restController.getRestaurant);
 restautant.get("/:id/dashboard", restController.getDashboard);

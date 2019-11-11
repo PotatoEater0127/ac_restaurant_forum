@@ -74,6 +74,24 @@ const restController = {
         res.render("restaurant", { restaurant, isFavorited, isLiked });
       }),
 
+  getTopRestaurants: async (req, res) => {
+    let restaurants = await Restaurant.findAll({
+      include: [{ model: User, as: "FavoritedUsers" }]
+    });
+    restaurants = restaurants
+      .map(rest => ({
+        ...rest.dataValues,
+        favoritesCount: rest.FavoritedUsers.length,
+        description: rest.description.substring(0, 50),
+        isFavorited: req.user.FavoritedRestaurants.map(
+          favRest => favRest.id
+        ).includes(rest.id)
+      }))
+      .sort((a, b) => b.favoritesCount - a.favoritesCount)
+      .slice(0, 10);
+    res.render("topRestaurants", { restaurants });
+  },
+
   getFeeds: async (req, res) => {
     const restaurants = await Restaurant.findAll({
       limit: 10,
