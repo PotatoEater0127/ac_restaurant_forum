@@ -1,9 +1,9 @@
-const { Restaurant, Category } = require("../../models");
+const adminService = require("../../services/adminService");
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ include: [Category] }).then(restaurants => {
-      return res.json({ restaurants });
+    adminService.getRestaurants(req, res, data => {
+      return res.json(data);
     });
   }
 };

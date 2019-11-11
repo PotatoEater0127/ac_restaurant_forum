@@ -1,4 +1,5 @@
 const { Restaurant, User, Category } = require("../models");
+const adminService = require("../services/adminService");
 const { uploadAsync } = require("../util/imgurUtil");
 
 const adminController = {
@@ -12,11 +13,8 @@ const adminController = {
   },
   // render all restaurants
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({
-      order: [["id", "ASC"]],
-      include: [Category]
-    }).then(restaurants => {
-      return res.render("admin/restaurants", { restaurants });
+    adminService.getRestaurants(req, res, data => {
+      return res.render("admin/restaurants", data);
     });
   },
   // render the create-restautant page, which is also the edit-restaurant page
