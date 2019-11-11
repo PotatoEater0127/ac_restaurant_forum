@@ -1,10 +1,11 @@
 const { Category } = require("../models");
+const categoryService = require("../services/categoryService");
 
 const categoryController = {
-  getCategories: async (req, res) => {
-    const category = await Category.findByPk(req.params.id);
-    const categories = await Category.findAll();
-    return res.render("admin/categories", { categories, category });
+  getCategories: (req, res) => {
+    categoryService.getCategories(req, res, data => {
+      return res.render("admin/categories", data);
+    });
   },
   postCategory: (req, res) => {
     if (!req.body.name) {

@@ -5,10 +5,8 @@ const { uploadAsync } = require("../util/imgurUtil");
 const adminController = {
   // render one restaurant
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, {
-      include: Category
-    }).then(restaurant => {
-      return res.render("admin/restaurant", { restaurant });
+    return adminService.getRestaurant(req, res, data => {
+      return res.render("admin/restaurant", data);
     });
   },
   // render all restaurants
