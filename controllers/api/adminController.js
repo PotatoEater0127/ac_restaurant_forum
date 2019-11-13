@@ -17,6 +17,11 @@ const adminController = {
       res.json(data);
     });
   },
+  putRestaurant: async (req, res) => {
+    adminService.putRestaurant(req, res, data => {
+      res.json(data);
+    });
+  },
   deleteRestaurant: (req, res) => {
     adminService.deleteRestaurant(req, res, data => {
       if (data.status === "success") {

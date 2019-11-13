@@ -45,22 +45,13 @@ const adminController = {
   },
   // update a restaurant data and then redirect to /admin/restaurants
   putRestaurant: async (req, res) => {
-    if (!req.body.name) {
-      req.flashError("name didn't exist");
-      return res.redirect("back");
-    }
-
-    const { file, body } = req;
-    const img = await uploadAsync(file);
-    body.image = img && img.data ? img.data.link : null;
-    body.CategoryId = body.categoryId;
-
-    return Restaurant.findByPk(req.params.id).then(restaurant => {
-      body.image = body.image || restaurant.image;
-      restaurant.update(body).then(() => {
-        req.flashSuccess("restaurant updated successfully");
-        res.redirect("/admin/restaurants");
-      });
+    adminService.putRestaurant(req, res, data => {
+      if (data.status === "error") {
+        req.flashError(data.message);
+        return res.redirect("back");
+      }
+      req.flashSuccess(data.message);
+      return res.redirect("/admin/restaurants");
     });
   },
   // delete a restaurant data and then redirect to /admin/restaurants

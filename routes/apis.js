@@ -11,6 +11,7 @@ router
 router
   .route("/admin/restaurants/:id")
   .get(adminController.getRestaurant)
+  .put(upload.single("image"), adminController.putRestaurant)
   .delete(adminController.deleteRestaurant);
 
 router.get("/admin/categories", adminController.getCategories);

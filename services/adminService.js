@@ -13,7 +13,7 @@ const adminService = {
 
   postRestaurant: async (req, res, callback) => {
     if (!req.body.name) {
-      callback({ status: "error", message: "name didn't exist" });
+      return callback({ status: "error", message: "name didn't exist" });
     }
 
     const { file, body } = req;
@@ -26,6 +26,26 @@ const adminService = {
       callback({
         status: "success",
         message: "restaurant was successfully created"
+      });
+    });
+  },
+
+  putRestaurant: async (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: "error", message: "name doesn't exist" });
+    }
+    const { file, body } = req;
+    const img = await uploadAsync(file);
+    body.image = img && img.data ? img.data.link : null;
+    body.CategoryId = body.categoryId;
+
+    return Restaurant.findByPk(req.params.id).then(restaurant => {
+      body.image = body.image || restaurant.image;
+      restaurant.update(body).then(() => {
+        callback({
+          status: "success",
+          message: "restaurant was updated successfully"
+        });
       });
     });
   },
