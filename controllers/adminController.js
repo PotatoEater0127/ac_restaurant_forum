@@ -23,19 +23,12 @@ const adminController = {
   },
   // create a restaurant and then redirect to /admin/restaurants
   postRestaurant: async (req, res) => {
-    if (!req.body.name) {
-      req.flashError("name didn't exist");
-      return res.redirect("back");
-    }
-
-    const { file, body } = req;
-    const img = await uploadAsync(file);
-    // in case either img or img.data is null or undefined
-    body.image = img && img.data ? img.data.link : null;
-    body.CategoryId = body.categoryId;
-
-    return Restaurant.create(body).then(() => {
-      req.flashSuccess("restaurant was successfully created");
+    adminService.postRestaurant(req, res, data => {
+      if (data.status === "error") {
+        req.flashError(data.message);
+        return res.redirect("back");
+      }
+      req.flashSuccess(data.message);
       res.redirect("/admin/restaurants");
     });
   },

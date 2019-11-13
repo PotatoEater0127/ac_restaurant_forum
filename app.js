@@ -16,7 +16,7 @@ app.engine(
   handlebars({ defaultLayout: "main", helpers: hbsHelpers })
 );
 app.set("view engine", "handlebars");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }), bodyParser.json());
 app.use(methodOverride("_method"));
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 app.use(passport.initialize(), passport.session());

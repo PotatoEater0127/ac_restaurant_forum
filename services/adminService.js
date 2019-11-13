@@ -1,4 +1,5 @@
 const { Restaurant, Category } = require("../models");
+const { uploadAsync } = require("../util/imgurUtil");
 
 const adminService = {
   getRestaurants: (req, res, callback) => {
@@ -7,6 +8,25 @@ const adminService = {
       order: [["id", "ASC"]]
     }).then(restaurants => {
       callback({ restaurants });
+    });
+  },
+
+  postRestaurant: async (req, res, callback) => {
+    if (!req.body.name) {
+      callback({ status: "error", message: "name didn't exist" });
+    }
+
+    const { file, body } = req;
+    const img = await uploadAsync(file);
+    // in case either img or img.data is null or undefined
+    body.image = img && img.data ? img.data.link : null;
+    body.CategoryId = body.categoryId;
+
+    return Restaurant.create(body).then(() => {
+      callback({
+        status: "success",
+        message: "restaurant was successfully created"
+      });
     });
   },
 
