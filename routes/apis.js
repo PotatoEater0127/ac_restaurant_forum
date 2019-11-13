@@ -2,6 +2,7 @@ const router = require("express").Router();
 const upload = require("multer")({ dest: "temp/" });
 
 const adminController = require("../controllers/api/adminController.js");
+const categoryController = require("../controllers/api/categoryController");
 
 router
   .route("/admin/restaurants")
@@ -14,6 +15,9 @@ router
   .put(upload.single("image"), adminController.putRestaurant)
   .delete(adminController.deleteRestaurant);
 
-router.get("/admin/categories", adminController.getCategories);
+router
+  .route("/admin/categories")
+  .get(categoryController.getCategories)
+  .post(categoryController.postCategory);
 
 module.exports = router;

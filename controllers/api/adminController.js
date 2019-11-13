@@ -28,11 +28,6 @@ const adminController = {
         return res.redirect("/admin/restaurants");
       }
     });
-  },
-  getCategories: (req, res) => {
-    adminService.getCategories(req, res, data => {
-      return res.json(data);
-    });
   }
 };
 

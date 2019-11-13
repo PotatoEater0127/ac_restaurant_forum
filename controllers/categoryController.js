@@ -8,12 +8,12 @@ const categoryController = {
     });
   },
   postCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flashError("name didn't exist");
-      return res.redirect("back");
-    }
-    const { body } = req;
-    return Category.create(body).then(category => {
+    categoryService.postCategories(req, res, data => {
+      if (data.status === "error") {
+        req.flashError(data.message);
+        return res.redirect("back");
+      }
+      req.flashSuccess(data.message);
       res.redirect("/admin/categories");
     });
   },
