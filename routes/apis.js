@@ -20,4 +20,6 @@ router
   .get(categoryController.getCategories)
   .post(categoryController.postCategory);
 
+router.route("/admin/categories/:id").put(categoryController.putCategory);
+
 module.exports = router;

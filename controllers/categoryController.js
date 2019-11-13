@@ -18,13 +18,14 @@ const categoryController = {
     });
   },
   putCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flashError("name didn't exist");
-      res.redirect("back");
-    }
-    return Category.findByPk(req.params.id)
-      .then(category => category.update(req.body))
-      .then(() => res.redirect("/admin/categories"));
+    categoryService.putCategory(req, res, data => {
+      if (data.status === "error") {
+        req.flashError(data.message);
+        return res.redirect("back");
+      }
+      req.flashSuccess(data.message);
+      return res.redirect("/admin/categories");
+    });
   },
   deleteCategory: (req, res) => {
     return Category.findByPk(req.params.id)
